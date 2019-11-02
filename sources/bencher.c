@@ -32,17 +32,17 @@
 
 static const double N_1E9 = 1e9;
 
-struct bencher __bencher_new(const char *const __trace) {
+struct Bencher __Bencher_new(const char *const __trace) {
     assert(NULL != __trace);
 
-    struct bencher self = {.trace=__trace, .runs=0};
+    struct Bencher self = {.trace=__trace, .runs=0};
     timespec_get(&self.timer_start, TIME_UTC);
     self.clock_start = clock();
 
     return self;
 }
 
-void bencher_report(const struct bencher *const self, FILE *const file) {
+void Bencher_report(const struct Bencher *const self, FILE *const file) {
     assert(NULL != self);
     assert(NULL != file);
 
@@ -60,19 +60,19 @@ void bencher_report(const struct bencher *const self, FILE *const file) {
             self->trace, self->runs, total_time, total_time / self->runs, cpu_total_time, cpu_total_time / self->runs, (100.0 * cpu_total_time) / total_time);
 }
 
-void bencher_tick(struct bencher *const self) {
+void Bencher_tick(struct Bencher *const self) {
     assert(NULL != self);
     self->clock_end = clock();
     timespec_get(&self->timer_end, TIME_UTC);
     self->runs += 1;
 }
 
-struct __bencher_context __bencher_context_new(const struct bencher bencher, const unsigned iters) {
+struct __BencherContext __BencherContext_new(const struct Bencher bencher, const unsigned iters) {
     assert(0 < iters && iters < UINT_MAX);
-    return (struct __bencher_context) {.bencher=bencher, .iters=iters};
+    return (struct __BencherContext) {.bencher=bencher, .iters=iters};
 }
 
-int __bencher_context_check(const struct __bencher_context *const self, FILE *const file) {
+int __BencherContext_check(const struct __BencherContext *const self, FILE *const file) {
     assert(NULL != self);
     assert(NULL != file);
 
@@ -80,12 +80,12 @@ int __bencher_context_check(const struct __bencher_context *const self, FILE *co
         return 1;
     } else {
         assert(self->iters == self->bencher.runs);
-        bencher_report(&self->bencher, file);
+        Bencher_report(&self->bencher, file);
         return 0;
     }
 }
 
-void __bencher_context_update(struct __bencher_context *const self) {
+void __BencherContext_update(struct __BencherContext *const self) {
     assert(NULL != self);
-    bencher_tick(&self->bencher);
+    Bencher_tick(&self->bencher);
 }

@@ -47,10 +47,7 @@ __attribute__(...)
 #define BENCHER_VERSION_IS_RELEASE  0
 #define BENCHER_VERSION_HEX         0x010000
 
-/*
- *
- */
-struct bencher {
+struct Bencher {
     struct timespec timer_start;
     struct timespec timer_end;
     const char *trace;
@@ -59,37 +56,37 @@ struct bencher {
     unsigned runs;
 };
 
-extern struct bencher __bencher_new(const char *__trace)
+// private
+extern struct Bencher __Bencher_new(const char *__trace)
 __attribute__((__warn_unused_result__, __nonnull__(1)));
 
-extern void bencher_report(const struct bencher *self, FILE *file)
+#define Bencher_new() \
+    __Bencher_new(__TRACE__)
+
+extern void Bencher_report(const struct Bencher *self, FILE *file)
 __attribute__((__nonnull__(1, 2)));
 
-extern void bencher_tick(struct bencher *self)
+extern void Bencher_tick(struct Bencher *self)
 __attribute__((__nonnull__(1)));
 
-/*
- *
- */
-struct __bencher_context {
-    struct bencher bencher;
+// <----- private begin
+struct __BencherContext {
+    struct Bencher bencher;
     const unsigned iters;
 };
 
-extern struct __bencher_context __bencher_context_new(struct bencher bencher, unsigned iters)
+extern struct __BencherContext __BencherContext_new(struct Bencher bencher, unsigned iters)
 __attribute__((__warn_unused_result__));
 
-extern int __bencher_context_check(const struct __bencher_context *self, FILE *file)
+extern int __BencherContext_check(const struct __BencherContext *self, FILE *file)
 __attribute__((__warn_unused_result__, __nonnull__(1, 2)));
 
-extern void __bencher_context_update(struct __bencher_context *self)
+extern void __BencherContext_update(struct __BencherContext *self)
 __attribute__((__nonnull__(1)));
-
-#define bencher_new() \
-    __bencher_new(__TRACE__)
+// <----- private end
 
 #define bench_iters_on(n, f) \
-  for (struct __bencher_context context = __bencher_context_new(bencher_new(), (n)); __bencher_context_check(&context, (f)); __bencher_context_update(&context))
+  for (struct __BencherContext context = __BencherContext_new(Bencher_new(), (n)); __BencherContext_check(&context, (f)); __BencherContext_update(&context))
 
 #define bench_iters(n) \
     bench_iters_on(n, stderr)
