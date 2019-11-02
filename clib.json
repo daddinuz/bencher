@@ -8,6 +8,9 @@
     "bencher",
     "benchmark"
   ],
+  "dependencies": {
+    "daddinuz/trace": "1.0.0"
+  },
   "src": [
     "sources/bencher.c",
     "sources/bencher.h"

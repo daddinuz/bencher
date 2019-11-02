@@ -27,6 +27,8 @@
 
 #pragma once
 
+#include <trace/trace.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -38,12 +40,12 @@ extern "C" {
 __attribute__(...)
 #endif
 
-#define BENCHER_VERSION_MAJOR         1
-#define BENCHER_VERSION_MINOR         0
-#define BENCHER_VERSION_PATCH         0
-#define BENCHER_VERSION_SUFFIX        ""
-#define BENCHER_VERSION_IS_RELEASE    0
-#define BENCHER_VERSION_HEX           0x010000
+#define BENCHER_VERSION_MAJOR       1
+#define BENCHER_VERSION_MINOR       0
+#define BENCHER_VERSION_PATCH       0
+#define BENCHER_VERSION_SUFFIX      ""
+#define BENCHER_VERSION_IS_RELEASE  0
+#define BENCHER_VERSION_HEX         0x010000
 
 /*
  *
@@ -83,12 +85,8 @@ __attribute__((__warn_unused_result__, __nonnull__(1, 2)));
 extern void __bencher_context_update(struct __bencher_context *self)
 __attribute__((__nonnull__(1)));
 
-#define __bencher_str_impl(s) #s
-#define __bencher_str(s)      __bencher_str_impl(s)
-#define __BENCHER_TRACE__     __FILE__ ":" __bencher_str(__LINE__)
-
 #define bencher_new() \
-    __bencher_new(__BENCHER_TRACE__)
+    __bencher_new(__TRACE__)
 
 #define bench_iters_on(n, f) \
   for (struct __bencher_context context = __bencher_context_new(bencher_new(), (n)); __bencher_context_check(&context, (f)); __bencher_context_update(&context))
