@@ -1,10 +1,10 @@
 {
   "name": "trace",
   "repo": "daddinuz/trace",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "license": "MIT",
   "dependencies": {
-    "daddinuz/stringify": "1.0.0"
+    "daddinuz/stringify": "2.0.0"
   },
   "src": [
     "sources/trace.h"

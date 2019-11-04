@@ -31,13 +31,6 @@
 extern "C" {
 #endif
 
-#define STRINGIFY_VERSION_MAJOR         1
-#define STRINGIFY_VERSION_MINOR         0
-#define STRINGIFY_VERSION_PATCH         0
-#define STRINGIFY_VERSION_SUFFIX        ""
-#define STRINGIFY_VERSION_IS_RELEASE    0
-#define STRINGIFY_VERSION_HEX           0x010000
-
 #define __stringify(s)  #s
 #define stringify(s)    __stringify(s)
 
