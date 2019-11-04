@@ -36,8 +36,8 @@ struct Bencher __Bencher_new(const char *const __trace) {
     assert(NULL != __trace);
 
     struct Bencher self = {.trace=__trace, .runs=0};
-    timespec_get(&self.timer_start, TIME_UTC);
-    self.clock_start = clock();
+    timespec_get(&self.timerStart, TIME_UTC);
+    self.clockStart = clock();
 
     return self;
 }
@@ -46,13 +46,13 @@ void Bencher_report(const struct Bencher *const self, FILE *const file) {
     assert(NULL != self);
     assert(NULL != file);
 
-    const double cpu_total_time = ((double) (self->clock_end - self->clock_start)) / CLOCKS_PER_SEC;
-    const struct timespec elapsed_time = (self->timer_end.tv_nsec - self->timer_start.tv_nsec) < 0 ? (struct timespec) {
-            .tv_sec = self->timer_end.tv_sec - self->timer_start.tv_sec - 1,
-            .tv_nsec = N_1E9 + self->timer_end.tv_nsec - self->timer_start.tv_nsec
+    const double cpu_total_time = ((double) (self->clockEnd - self->clockStart)) / CLOCKS_PER_SEC;
+    const struct timespec elapsed_time = (self->timerEnd.tv_nsec - self->timerStart.tv_nsec) < 0 ? (struct timespec) {
+            .tv_sec = self->timerEnd.tv_sec - self->timerStart.tv_sec - 1,
+            .tv_nsec = N_1E9 + self->timerEnd.tv_nsec - self->timerStart.tv_nsec
     } : (struct timespec) {
-            .tv_sec = self->timer_end.tv_sec - self->timer_start.tv_sec,
-            .tv_nsec = self->timer_end.tv_nsec - self->timer_start.tv_nsec
+            .tv_sec = self->timerEnd.tv_sec - self->timerStart.tv_sec,
+            .tv_nsec = self->timerEnd.tv_nsec - self->timerStart.tv_nsec
     };
     const double total_time = elapsed_time.tv_sec + elapsed_time.tv_nsec / N_1E9;
 
@@ -62,8 +62,8 @@ void Bencher_report(const struct Bencher *const self, FILE *const file) {
 
 void Bencher_tick(struct Bencher *const self) {
     assert(NULL != self);
-    self->clock_end = clock();
-    timespec_get(&self->timer_end, TIME_UTC);
+    self->clockEnd = clock();
+    timespec_get(&self->timerEnd, TIME_UTC);
     self->runs += 1;
 }
 

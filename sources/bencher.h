@@ -41,11 +41,11 @@ __attribute__(...)
 #endif
 
 struct Bencher {
-    struct timespec timer_start;
-    struct timespec timer_end;
+    struct timespec timerStart;
+    struct timespec timerEnd;
     const char *trace;
-    clock_t clock_start;
-    clock_t clock_end;
+    clock_t clockStart;
+    clock_t clockEnd;
     unsigned runs;
 };
 
