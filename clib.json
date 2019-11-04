@@ -1,7 +1,7 @@
 {
   "name": "bencher",
   "repo": "daddinuz/bencher",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "license": "MIT",
   "description": "A tiny C11 library to bench C code execution time.",
   "keywords": [
