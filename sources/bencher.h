@@ -40,13 +40,6 @@ extern "C" {
 __attribute__(...)
 #endif
 
-#define BENCHER_VERSION_MAJOR       1
-#define BENCHER_VERSION_MINOR       0
-#define BENCHER_VERSION_PATCH       0
-#define BENCHER_VERSION_SUFFIX      ""
-#define BENCHER_VERSION_IS_RELEASE  1
-#define BENCHER_VERSION_HEX         0x010000
-
 struct Bencher {
     struct timespec timer_start;
     struct timespec timer_end;
